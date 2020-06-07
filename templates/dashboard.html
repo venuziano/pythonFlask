@@ -1,0 +1,72 @@
+{% extends "default.html" %}
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    
+    <title>Dashboard</title>
+</head>
+{% block body %}
+    <div id="wrapper">
+        <!-- Navigation -->   
+        <div id="page-wrapper" style="min-height: 602px;">
+            <!-- /.row -->
+            <div class="row">
+              <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div id="morris-area-chart"></div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-8 -->
+            </div>
+
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+
+    <script src="{{url_for('static', filename='vendor/metisMenu/metisMenu.min.js')}}"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="{{url_for('static', filename='vendor/raphael/raphael.min.js')}}"></script>
+    <script src="{{url_for('static', filename='vendor/morrisjs/morris.min.js')}}"></script>
+    <script>
+       $(function() {
+          Morris.Area({
+            element: 'morris-area-chart',
+              data:[{% for entry_data in entries_data %} {
+    	        period: '{{entry_data[0]}}',
+                cpu: {{entry_data[2]}},
+                mem: {{entry_data[3]}} 
+                },
+
+                {% endfor %}
+
+                ],
+          xkey: 'period',
+          ykeys: ['cpu'],
+          labels: ['cpu', 'iPad', 'iPod Touch'],
+          pointSize: 2,
+          hideHover: 'auto',
+          resize: true
+          });
+     });
+    </script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{{url_for('static', filename='dist/js/sb-admin-2.js')}}"></script>
+
+{% endblock %}

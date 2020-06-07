@@ -1,0 +1,6 @@
+required packages:
+
+pip3 install os
+pip3 install flask
+pip3 install psutil
+pip3 install psycopg2

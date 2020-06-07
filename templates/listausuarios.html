@@ -1,0 +1,25 @@
+{% extends "default.html"%}
+{% block body %}
+<div class=page>
+   <h3>Usuarios</h3>
+         <table border = 1>
+            <th><h3>Codigo</h3></th>
+            <th><h3>Login</h3></th>
+            <th><h3>Senha</h3></th>
+            <th><h3>Editar</h3></th>
+            {% for data_usuarios in data_usuarios %}
+               <tr>
+                  <th><h3>{{ data_usuarios[0] }}</h3></th>
+                  <th><h3>{{ data_usuarios[1] }}</h3></th>
+                  <th><h3>{{ data_usuarios[2] }}</h3></th>
+                  <th><h3><a href="" id={{ data_usuarios[0] }}>Editar</a></h3></th>
+	       </tr>
+            {% endfor %}
+         </table>
+        <form role="form" method="GET" action="info">
+                       <fieldset>
+				<input type="submit" class="btn btn-lg btn-primary" value="Voltar">
+                            </fieldset>
+			</form>
+      {% endblock %}
+
