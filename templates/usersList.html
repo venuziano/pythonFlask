@@ -1,0 +1,46 @@
+{% extends "default.html"%}
+{% block body %}
+
+<style>
+
+   .align-icons {
+     display: block; 
+     margin-left: auto; 
+     margin-right: auto
+   }
+
+   .align-text {
+     display: block; 
+     text-align: center;
+   }
+
+   .users-list {
+     display: flex;
+     flex-direction: row;
+     justify-content: center;
+     align-items: center
+   }
+
+</style>
+
+<div class=page style="display: flex; flex-direction: row; justify-content: center; align-items: center">
+   <h3>Lista de usuarios cadastrados:</h3>
+         <table border = 1>
+            <th><h3 class="align-text">Login</h3></th>
+            <th><h3 class="align-text">Senha</h3></th>
+            <th><h3 class="align-text" style="width: 100px;">Excluir</h3></th>
+            {% for data_usuarios in data_usuarios %}
+               <tr>
+                  <th id="user"><h3 class="align-text">{{ data_usuarios[0] }}</h3></th>
+                  <th><h3 class="align-text" style="width: 100px;"><img src="/static/assets/bloqueio.png" alt="password" class="align-icons"></h3></th>
+                  <th><h3><img id="delete" src="/static/assets/remover.png" alt="delete" class="align-icons" style="cursor: pointer;"></h3></th>
+	       </tr>
+            {% endfor %}
+         </table>
+
+         <form role="form" method="GET" action="dashboard"> <fieldset>
+				<input type="submit" class="btn btn-lg btn-primary" value="Voltar"> </fieldset>
+         </form>
+
+         {% endblock %}
+

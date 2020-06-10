@@ -1,7 +1,3 @@
-# Autores: Rafael, Luis, Guilherme
-#
-#
-
 import psutil
 import psycopg2
 import os

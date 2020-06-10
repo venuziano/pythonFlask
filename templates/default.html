@@ -37,7 +37,7 @@
 <div class=page>
   <h1>Projeto Python & Flask</h1>
   <div class=metanav>
-     {% if not session.estalogado %}
+     {% if not session.isLogged %}
        <a href="{{ url_for('auth') }}"></a>
      {% else %}
         <form role="form" method="GET" action="logout">
@@ -46,7 +46,7 @@
                             </fieldset>
 			</form>
 
-        <form role="form" method="GET" action="listausu">
+        <form role="form" method="GET" action="usersList">
                        <fieldset>
 				<input type="submit" class="btn btn-lg btn-primary" value="Listar Usuarios">
                             </fieldset>

@@ -1,5 +1,6 @@
  {% extends "default.html" %}
  {% block body %}
+ 
  <div class="page-header">
 	<h1>Cadastro de Usuario</h1>
  </div>
@@ -7,12 +8,12 @@
 	<form class="navbar-form navbar-left" action="createUser" method="POST">
 		<table>
 			<tr>
-				<td>E-mail:</td>
+				<td>E-mail* :</td>
 				<td><input type="text" class="form-control" name="usuario" type="email" autofocus></td>
 			</tr>
 			<tr>
-				<td>Senha:</td>
-				<td><input type="text" class="form-control" name="senha" type="password" value=""></td>
+				<td>Senha* :</td>
+				<td><input type="password" class="form-control" name="senha" value=""></td>
 			</tr>
 
 		</table><br>
