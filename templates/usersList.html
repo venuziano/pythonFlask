@@ -1,6 +1,10 @@
 {% extends "default.html"%}
 {% block body %}
 
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 <style>
 
    .align-icons {
@@ -23,24 +27,81 @@
 
 </style>
 
-<div class=page style="display: flex; flex-direction: row; justify-content: center; align-items: center">
+<script>
+
+   var $thatRow;
+
+   // Quando ocorre um click em uma linha da tabela tr,
+   // salva essa linha como uma variável global para poder ser usada como ponto de referência onde o click ocorreu
+   $(document).on('click', '#lista-tarefas tbody tr', function(){
+      $thatRow = $(this);
+      alert('será ' + {$thatRow})
+   });
+
+   // Aponta para a nova class adicionada ao botão "SIM" do modal
+   $('#li-content-wrapper .btn btn-primaryexcluir-trigger').on('click', function(){
+      //$thatRow.hide();
+      alert('Usuário removido com sucesso!');
+       // Aqui remove a linha referida
+        // ou usando remove() do jQuery dependendo do que queira
+   });
+   
+</script>
+
+<div id="li-content-wrapper">
    <h3>Lista de usuarios cadastrados:</h3>
-         <table border = 1>
-            <th><h3 class="align-text">Login</h3></th>
-            <th><h3 class="align-text">Senha</h3></th>
-            <th><h3 class="align-text" style="width: 100px;">Excluir</h3></th>
+   <table id="lista-tarefas" class="table table-bordered table-striped">
+       <thead class="bg-header-tb">
+           <th class="text-center text-uppercase">Login</th>
+           <th class="text-center text-uppercase">Senha</th>
+           <th class="text-center text-uppercase">Excluir</th>
+       </thead>
+       <tbody>
             {% for data_usuarios in data_usuarios %}
-               <tr>
-                  <th id="user"><h3 class="align-text">{{ data_usuarios[0] }}</h3></th>
-                  <th><h3 class="align-text" style="width: 100px;"><img src="/static/assets/bloqueio.png" alt="password" class="align-icons"></h3></th>
-                  <th><h3><img id="delete" src="/static/assets/remover.png" alt="delete" class="align-icons" style="cursor: pointer;"></h3></th>
-	       </tr>
-            {% endfor %}
-         </table>
+            <tr>
+               <td class="teste">{{ data_usuarios[0] }}</td>
+               <td class="align-text"><img src="/static/assets/bloqueio.png" alt="password" class="align-icons"></td>
+               <td class="text-center">
+                   <p data-placement="top" data-toggle="tooltip" title="Excluir" class="acoes-btn">
+                       <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
+                           <span class="glyphicon glyphicon-trash"></span>
+                       </button>
+                   </p>
+               </td>
+            </tr>
+           {% endfor %}
+       </tbody>
+   </table>
 
-         <form role="form" method="GET" action="dashboard"> <fieldset>
-				<input type="submit" class="btn btn-lg btn-primary" value="Voltar"> </fieldset>
-         </form>
+   <!--caixa de dialogo-->
+   <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                   </button>
+                   <h4 class="modal-title custom_align" id="Heading">Excluir usuário</h4>
+               </div>
+               <div class="modal-body">
+                   <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Tem certeza que deseja excluir o usuário?</div>
+               </div>
+               <div class="modal-footer ">
+                   <!-- AQUI ADICIONA A NOVA CLASS ".excluir-trigger" (Trigger) AO BOTÃO "SIM" -->
+                   <button type="button" class="btn btn-primary excluir-trigger" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign"></span> Sim</button>
+                   <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Não</button>
+               </div>
+           </div>
+           <!-- /.modal-content --> 
+       </div>
+       <!-- /.modal-dialog --> 
+   </div>
 
-         {% endblock %}
+   <form role="form" method="GET" action="dashboard"> <fieldset>
+      <input type="submit" class="btn btn-lg btn-primary" value="Voltar"> </fieldset>
+   </form>
+
+</div>
+
+{% endblock %}
 
