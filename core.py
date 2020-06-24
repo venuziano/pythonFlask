@@ -48,12 +48,22 @@ def createUser():
       elif registro == []:
          cur.execute( 'INSERT INTO users( mail, password ) VALUES ( %s, %s )', ( usuario,senha ) )
          con.commit()
-         flash( 'Cadastro realizado com sucesso' )
+         flash( 'Cadastro realizado com sucesso!' )
       
    return render_template( 'userRegister.html' )
 
 @app.route( '/deleteUser', methods = [ 'GET', 'POST' ] )
+def deleteUser():
+   if request.method == 'POST':
+      print(request)
+      usuario = request.form[ 'usuario' ]
 
+      cur = con.cursor()
+      cur.execute( "delete from users where mail = '" + usuario + "'")
+      con.commit()
+      #flash( 'Cadastro realizado com sucesso' )
+
+      return redirect("/usersList")
 
 @app.route( '/auth', methods = [ 'GET', 'POST' ])
 def auth():
@@ -69,12 +79,10 @@ def auth():
          session['isLogged'] = True
          session['email'] = usuario
          session['senha'] = senha
-         flash("Login realizado com sucesso")
+         return redirect("/")
       else:
          flash("Credenciais inválidas, tente novamente.")
-      return redirect("/")
-
-   return render_template("auth.html")
+         return render_template("auth.html")
 
 @app.route("/dashboard")
 def dashboard():
@@ -105,18 +113,17 @@ def usersList():
       flash( 'Nenhum usuário encontrado!' )
       return redirect('/')
    else:	
-      return render_template( 'usersList.html', data_usuarios = resultados )
+      return render_template( 'usersList.html', users_data = resultados )
 
 @app.route("/logout")
 def logout():
    session.pop('isLogged', None)
    session.pop('email', None)
    session.pop('password', None)
-   flash( 'Deslogin realizado com sucesso' )
    return redirect('/')
 
 if __name__ == "__main__" :
    app.secret_key = '\x91i(\xd0\xe1\x9d\x11\x94\xc2\x9ed<\xce\xc6\x1c4\x06s}F\xf5\xe4&\xd2'
    app.session_type = 'memcache'
    app.debug = True
-   app.run(host='0.0.0.0', port=9002)
+   app.run(host='0.0.0.0', port=9000)
