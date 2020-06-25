@@ -1,15 +1,7 @@
-//armazena os valores dos recursos
-create table data
-(
-  id serial,
-  date varchar(100) null,
-  resource varchar(20) null,
-  value varchar(1000) null
-)
-
 //armazena dados dos usuarios
 create table users
 (
   mail varchar(100) null,
-  password varchar(100) null
+  password varchar(100) null,
+  dt_create data null
 )

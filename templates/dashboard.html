@@ -1,26 +1,71 @@
-{% extends "default.html" %}
+<!-- {% extends "default.html" %}
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+{% block body %} -->
     
-    <title>Dashboard</title>
-</head>
-{% block body %}
+<!DOCTYPE HTML>
+<html>
+<head>
+<link href="https://canvasjs.com/assets/css/jquery-ui.1.11.2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.css" integrity="sha256-IvM9nJf/b5l2RoebiFno92E5ONttVyaEEsdemDC6iQA=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
 
-    <div id="wrapper" style="background: #60a3bc;">
-        <!-- Navigation -->   
-        <div id="page-wrapper" style="min-height: 602px;">
-            <!-- /.row -->
-            <div class="row">
-              <div class="col-lg-8">
-                    <div class="panel panel-default">
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div id="morris-area-chart"></div>
-                            
-                        </div>
-                        <div class=metanav style="display:inline-block;float:right;">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js" integrity="sha256-8zyeSXm+yTvzUN1VgAOinFgaVFEFTyYzWShOy9w7WoQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js" integrity="sha256-nZaxPHA2uAaquixjSDX19TmIlbRNCOrf5HO1oHl5p70=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+
+<script>
+window.onload = function () {
+
+// chart colors
+var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+
+/* large line chart */
+var chLine = document.getElementById("chLine");
+
+var chartData = {
+  
+  labels: [ {% for entry_data in entries_data %} "{{ entry_data[1] }}", {% endfor %} ],
+  datasets: [{
+    data: [ {% for entry_data in entries_data %} {{ entry_data[0] }}, {% endfor %} ],
+    backgroundColor: 'transparent',
+    borderColor: colors[0],
+    borderWidth: 4,
+    pointBackgroundColor: colors[0]
+  }]
+  
+};
+if (chLine) {
+  new Chart(chLine, {
+  type: 'line',
+  data: chartData,
+  options: {
+    scales: {
+      xAxes: [{
+        ticks: {
+          beginAtZero: false
+        }
+      }]
+    },
+    legend: {
+      display: false
+    },
+    responsive: true
+  }
+  });
+}
+
+}
+</script>
+</head>
+<body>
+  <h3>Quantidade de usuários cadastros por dia</h1>
+    <div class="row my-2">
+        <div class="col-md-6 py-1">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="chLine"></canvas>
+                    <div class=metanav style="display:inline-block;float:right;">
                             {% if not session.isLogged %}
                               <a href="{{ url_for('auth') }}"></a>
                             {% else %}
@@ -37,61 +82,11 @@
                                 </form>
                             {% endif %}
                          </div>
-                         {% for message in get_flashed_messages() %}
-                           <div class=flash>{{ message }}</div>
-                         {% endfor %}
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-8 -->
             </div>
-            
-            <!-- /.row -->
         </div>
-        <!-- /#page-wrapper -->
-        
-       </div>
     </div>
-    <!-- /#wrapper -->
-
-    <!-- /#wrapper -->
-
-    <!-- jQuery -->
-    <script src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
-
-    <script src="{{url_for('static', filename='vendor/metisMenu/metisMenu.min.js')}}"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="{{url_for('static', filename='vendor/raphael/raphael.min.js')}}"></script>
-    <script src="{{url_for('static', filename='vendor/morrisjs/morris.min.js')}}"></script>
-    <script>
-       $(function() {
-          Morris.Area({
-            element: 'morris-area-chart',
-              data:[{% for entry_data in entries_data %} {
-    	        period: '{{entry_data[0]}}',
-                cpu: {{entry_data[2]}},
-                mem: {{entry_data[3]}} 
-                },
-
-                {% endfor %}
-
-                ],
-          xkey: 'period',
-          ykeys: ['cpu'],
-          labels: ['cpu', 'iPad', 'iPod Touch'],
-          pointSize: 2,
-          hideHover: 'auto',
-          resize: true
-          });
-     });
-    </script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="{{url_for('static', filename='dist/js/sb-admin-2.js')}}"></script>
-
+    
+</body>
+</html>
 {% endblock %}

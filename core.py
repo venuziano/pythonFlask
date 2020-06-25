@@ -4,6 +4,7 @@ from flask import request
 from flask import session
 from flask import redirect
 from flask import flash
+from datetime import date
 
 import psycopg2
 
@@ -36,6 +37,7 @@ def createUser():
    if request.method == 'POST':
       senha = request.form[ 'senha' ]
       usuario = request.form[ 'usuario' ]
+      currently_date = date.today()
 
       cur = con.cursor()
       cur.execute("select * from users where mail = '" + usuario + "'")
@@ -46,7 +48,7 @@ def createUser():
       elif registro != []:
          flash( 'E-mail já cadastrado, utilize outro e-mail.' )
       elif registro == []:
-         cur.execute( 'INSERT INTO users( mail, password ) VALUES ( %s, %s )', ( usuario,senha ) )
+         cur.execute( 'INSERT INTO users( mail, password, dt_created ) VALUES ( %s, %s, %s )', ( usuario, senha, currently_date ) )
          con.commit()
          flash( 'Cadastro realizado com sucesso!' )
       
@@ -92,13 +94,14 @@ def dashboard():
 
    cur = con.cursor()
    try:
-      cur.execute("select date, resource, value, mem from data where resource = 'cpu/mem' order by  id desc limit 15")
+      cur.execute("select count(*), dt_created from users group by dt_created order by dt_created")
    except:
       flash( 'Nenhum dado encontrado, tente novamente.' )
 
    entries_data = cur.fetchall()
 
    return render_template( "dashboard.html", entries_data = entries_data )
+
 
 @app.route('/usersList')
 def usersList():
